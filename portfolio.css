@@ -1,0 +1,516 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+  background: #fff;
+  overflow-x: hidden;
+}
+
+.nt {
+  font-size: 20px;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: 0.3s;
+  color: white;
+}
+
+header.scrolled {
+  background: rgb(255, 255, 255);
+  color: #ebebeb;
+  border-bottom: 1px solid #eee;
+}
+
+nav {
+  width: 100%;
+  height: 108.58px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 15px 100px 15px 0;
+}
+
+.logo_white {
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+  padding-left: 85.5px;
+  width: 249px;   
+  padding-bottom: 6px;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+  margin-top: 0.2px;
+  margin-right: 0.39px;
+  color: #e4e4e4;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.95rem;
+}
+.submenu {
+  display: none;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  list-style: none;
+  border: 1px solid #eee;
+}
+.dropdown:hover .submenu {
+  display: block;
+}
+
+.submenu li a {
+  color: #333 !important;
+  display: block;
+  padding: 10px 0;
+  font-size: 0.85rem;
+}
+
+.stage {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  perspective: 2000px;
+}
+
+.ring, .img {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  user-select: none;
+}
+
+.container {
+  position: absolute;
+  width: 450px;
+  height: 600px;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  perspective: 2000px;
+  pointer-events: none; 
+}
+
+.img {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+
+.extra-images-container {
+  width: 100%;
+  max-width: 1100px; 
+  padding: 80px 20px 150px 20px; 
+  display: flex;
+  flex-direction: column;
+  gap: 50px; 
+}
+
+.sub-img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #444;
+  opacity: 0.9;
+  transition: opacity 0.3s;
+}
+
+.sub-img:hover {
+  opacity: 1;
+}
+
+.close {
+  position: fixed;
+  top: 30px;
+  right: 50px;
+  color: #fff;
+  font-size: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10001 !important;
+  transition: 0.3s;
+}
+
+.close:hover {
+  transform: scale(1.2) rotate(90deg);
+}
+
+.remote-menu {
+    position: fixed;
+    top: 50%;
+    right: 20px; 
+    transform: translateY(-50%);
+    z-index: 10001; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    text-decoration: none;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+    transition: all 0.2s ease;
+    background: #00083ae5;
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.menu-item img {
+    width: 40px; 
+    margin-bottom: 5px; 
+}
+
+.menu-item span {
+    font-size: 13px;
+    color:#ffffff;
+    font-weight: bold;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 0, 0, 0.8);
+}
+.menu-item span:hover {
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;
+}
+
+.menu-item.kakao:hover { background: #FEE500;}
+.menu-item.call:hover { background: #2ecc71; }
+.menu-item.chatbot:hover { background: #0B7BC7;}
+.chatbot-window {
+    display: none; 
+    position: fixed; 
+    bottom: 100px; 
+    right: 20px;
+    width: 320px;
+    height: 440px;
+    background: white; 
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    flex-direction: column; 
+    z-index: 10002;
+    overflow: hidden; 
+}
+
+.chatbot-header { 
+    background: #101155; 
+    color: #fff; 
+    padding: 15px; 
+    display: flex; 
+    justify-content: space-between; 
+    cursor: move; 
+    user-select: none;
+}
+
+.chatbot-messages { 
+    flex: 1; 
+    padding: 15px; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    scrollbar-gutter: stable;
+    gap: 10px; 
+    background: #f9f9f9;
+}
+
+.message {
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 100%;
+  font-size: 15px;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
+.user {
+  align-self: flex-end;
+  background: #ffe100;
+  color: #101155;
+  font-weight: 500;
+} 
+
+.bot { 
+  align-self: flex-start; 
+  background: #101155; 
+  color: white; 
+  position: relative;
+  width: fit-content;     
+  max-width: 100%;          
+  overflow: hidden;       
+  flex-shrink: 0;          
+  word-break: break-all;   
+  line-height: 23px;
+}
+
+.bot-tbx {
+  width: 275px;
+}
+
+.bot::after {
+  content: "";
+  position: absolute;
+  top: -80%;
+  left: -60%;
+  width: 20%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2); 
+  transform: rotate(30deg); 
+  animation: shine 3s infinite; 
+}
+
+@keyframes shine {
+  0% { left: -60%; }
+  20% { left: 120%; } 
+  100% { left: 120%; }
+}
+
+.chatbot-input button { 
+  position: relative;
+  background: transparent;
+  color: #101155; 
+  padding: 7px 15px; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-size: 14px; 
+  font-weight: 600; 
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chatbot-input button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(#101155, #101155 80%, #101155 90%, #ffe100 100%);
+  transform-origin: center;
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: rotateBorder 1.5s linear infinite;
+  z-index: -2;
+}
+.chatbot-input button::after {
+  content: "";
+  position: absolute;
+  inset: 2px; 
+  background: white;
+  border-radius: 3px;
+  z-index: -1;
+  transition: 0.05s;
+}
+
+.chatbot-input button:hover::after {
+  background: #101155;
+}
+.chatbot-input button:hover { color: #ffffff; }
+
+@keyframes rotateBorder {
+  0% { transform: rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px;
+}
+.menu-btn { 
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid #101155; 
+  background: white; 
+  color: #101155; 
+  padding: 8px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  transition: 0.3s;
+  text-align: center;
+}
+.menu-btn:hover {
+  background: #101155;
+  color: white;
+  font-weight: 500;
+}
+
+.chatbot-input {
+  padding: 10px;
+  display: flex;
+  border-top: 1px solid #eee;
+  background: white;
+}
+.chatbot-input input {
+  flex: 1;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  padding-left: 10px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  opacity: 0;
+}
+
+.modal-scroll-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: block;   
+  box-sizing: border-box;
+  scroll-behavior: auto !important;
+  overscroll-behavior: contain; 
+}
+
+.modal-content-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.modal-main-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  position: absolute !important; 
+  max-width: 500px;
+  width: auto;
+  border: none;
+  z-index: 2;
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.modal-description {
+    position: relative !important;
+    flex: 1 !important; 
+    display: flex !important;
+    flex-direction: row !important; /* 가로 방향 정렬 */
+    align-items: baseline !important; /* 글자 아래 기준선 맞춤 */
+    gap: 15px; /* 제목과 본문 사이 간격 */
+    color: #ffffff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-align: left !important;
+    padding: 20px;
+}
+
+/* 2. 제목 (h2) : 더 크게 설정 */
+.modal-description h2 {
+    font-size: 100px !important; /* 제목 크기 대폭 확대 */
+    font-weight: 700 !important;
+    margin: 0 !important;
+    color: #fff;
+    position:absolute;
+}
+
+/* 3. 본문 (p) : 제목 옆에 나란히 배치 */
+.modal-description p {
+    font-size: 70px !important; /* 본문은 제목보다 작게 */
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    color: #ccc; /* 본문은 살짝 흐리게 해서 대비 효과 */
+}
+
+    @media (max-width: 768px) {
+    /* 1. 콘텐츠 래퍼: 요소들이 겹치지 않게 순서대로 배치 */
+    .modal-content-wrapper {
+        display: flex !important;
+        flex-direction: column !important; /* 위아래로 배치 (겹침 방지 핵심) */
+        justify-content: center !important; 
+        align-items: center !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        padding: 20px !important;
+        gap: 25px !important; /* 사진과 글 사이의 확실한 간격 */
+    }
+
+    /* 2. 이미지 박스: 크기를 줄이고 자기 영역을 확실히 차지하게 함 */
+    .modal-content {
+        position: relative !important; /* absolute가 있다면 무조건 해제 */
+        width: 100% !important;        /* 사진 크기 아담하게 */
+        max-width: 300px !important;
+        height: auto !important;
+        margin: 0 !important;         /* 불필요한 마진 제거 */
+        display: block !important;
+        z-index: 10 !important;       /* 사진 층수 설정 */
+    }
+
+    /* 3. 설명 글: 사진 아래에 확실하게 배치 */
+    .modal-description {
+        position: relative !important; /* 사진 뒤로 숨지 않게 함 */
+        display: flex !important;
+        flex-direction: row !important; /* 제목과 본문은 한 줄 유지 */
+        align-items: baseline !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 20 !important;       /* 사진보다 높은 층수 부여 */
+        margin-top: 0 !important; 
+        font-size: 80px;    /* gap으로 조절하므로 마진 제거 */
+    }
+
+    /* 4. 글자 크기 (더 크게 조정) */
+    .modal-description h2 {
+        font-size: 50px !important;   
+        color: #fff !important;
+        white-space: nowrap !important;
+    }
+
+    .modal-description p {
+        font-size: 30px !important;  
+        color: #ddd !important;
+        white-space: nowrap !;
+    }
+  }

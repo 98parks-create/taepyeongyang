@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link rel="stylesheet" href="portfolio.css">
+</head>
+
+<body>
+  <header id="header">
+    <nav>
+      <a href="home.html"><img src="logo_white.png" class="logo_white"></a>
+      <ul>
+        <li><a href="home.html">HOME</a></li>
+        <li class="dropdown">
+          <a href="company.html">COMPANY</a>
+          <ul class="submenu">
+            <li><a href="company.html#greeting">인사말</a></li>
+            <li><a href="company.html#business">주요 사업</a></li>
+            <li><a href="company.html#vision">비전</a></li>
+            <li><a href="company.html#history">연혁</a></li>
+            <li><a href="company.html#map">찾아오시는 길</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="process.html">PROCESS</a>
+        </li>
+
+        <li><a href="loading.html">PORTFOLIO</a></li>
+        <li><a href="contact.html">CONTACT</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="stage">
+
+
+    <div class="container">
+      <div class="ring">
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-scroll-container">
+      <div class="modal-content-wrapper">
+        
+        <div class="modal-main-section">
+          <img class="modal-content" id="modal-img">
+          <div class="modal-description">
+            <h2>제목</h2>
+            <p>내용...</p>
+          </div>
+        </div>
+
+        </div>
+    </div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js'></script>
+  <script src="portfolio.js"></script>
+
+
+    <div class="remote-menu">
+        <a href="tel:010-3515-5678" class="menu-item call">
+            <img src="call.png" alt="전화">
+            <span>전화문의</span>
+        </a>
+        <a href="kakao.html" target="_blank" class="menu-item kakao">
+            <img src="kakao.png" alt="카톡">
+            <span>카톡문의</span>
+        </a>
+        <a href="#" onclick="openChatbot(); return false;" class="menu-item chatbot">
+            <img src="chatbot.png" alt="챗봇">
+            <span>챗봇상담</span>
+        </a>
+    </div>
+
+    <div id="chatbot-window" class="chatbot-window">
+        <div class="chatbot-header" id="drag-handle">
+            <span>태평양애드(TAD) 상담봇</span>
+            <button onclick="closeChatbot()" style="cursor:pointer; background:none; border:none; color:white; font-size:16px;">✕</button>
+        </div>
+        <div id="chatbot-messages" class="chatbot-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" id="user-input" placeholder="문의사항을 입력하세요..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()">전송</button>
+        </div>
+    </div>
+    
+
+    <script>
+        const responses = {
+            "intro": "안녕하세요!\n태평양애드(TAD)입니다. 😊\n궁금하신 내용을 선택해주세요!",
+            "pos": "📍 위치 안내\n경기도 광주시 경충대로 2191, B동\n(방문 전 연락 필수!)",
+            "price": "💰 견적 안내\n성함과 연락처를 남겨주시면 확인 후 제안서를 보내드립니다.",
+            "time": "⏰ 영업 시간\n평일: 09:30 ~ 18:30\n주말/공휴일 휴무",
+            "default": "전화(010-3515-5678) 주시면 가장 빠르게 안내받으실 수 있습니다! 📞"
+        };
+
+        const win = document.getElementById("chatbot-window");
+        const handle = document.getElementById("drag-handle");
+        let isDragging = false, x = 0, y = 0;
+
+        handle.onmousedown = (e) => {
+            isDragging = true;
+            x = e.clientX - win.offsetLeft;
+            y = e.clientY - win.offsetTop;
+        };
+
+        document.onmousemove = (e) => {
+            if (!isDragging) return;
+            win.style.left = (e.clientX - x) + "px";
+            win.style.top = (e.clientY - y) + "px";
+            win.style.bottom = "auto"; 
+            win.style.right = "auto";
+            win.style.position = "fixed";
+        };
+
+        document.onmouseup = () => isDragging = false;
+
+        function openChatbot() {
+            win.style.display = 'flex';
+            if (document.getElementById('chatbot-messages').children.length === 0) {
+                addMessage('bot', responses.intro);
+                showButtons();
+            }
+        }
+
+        function closeChatbot() { win.style.display = 'none'; }
+
+        function showButtons() {
+            const container = document.createElement('div');
+            container.className = 'menu내용...-container';
+            const buttons = [
+                { label: "🏢 회사 위치", key: "pos" },
+                { label: "💵 시공 단가", key: "price" },
+                { label: "🕙 상담 시간", key: "time" }
+            ];
+            buttons.forEach(btn => {
+                const b = document.createElement('button');
+                b.className = 'menu-btn';
+                b.innerText = btn.label;
+                b.onclick = () => {
+                    addMessage('user', btn.label);
+                    setTimeout(() => addMessage('bot', responses[btn.key]), 400);
+                };
+                container.appendChild(b);
+            });
+            document.getElementById('chatbot-messages').appendChild(container);
+        }
+
+        function addMessage(sender, text) {
+            const box = document.getElementById('chatbot-messages');
+            const msg = document.createElement('div');
+            msg.className = `message ${sender}`;
+            msg.innerText = text;
+            box.appendChild(msg);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            if (!input.value.trim()) return;
+            addMessage('user', input.value);
+            input.value = "";
+            setTimeout(() => addMessage('bot', responses.default), 600);
+        }
+    </script>
+    <style>
+      @media (max-width: 768px) {
+    nav {
+        padding: 10px !important;
+        flex-direction: column !important;
+        height: auto !important;
+        background: black !important;
+    }
+    .logo_white {
+        padding-left: 0 !important;
+        width: 120px !important;
+        margin: 10px 0 !important;
+    }
+    nav ul {
+        gap: 10px !important;
+        justify-content: center !important;
+        padding: 0 !important;
+    }
+    nav ul li a { font-size: 12px !important; color: #e4e4e4 !important; }
+
+    
+    .inner { width: 100% !important; padding: 0 !important; }
+    .process-steps {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+    .step { width: 100% !important; }
+    .process-card {
+        padding: 20px !important;
+        width: 100% !important;
+    }
+
+    .remote-menu {
+        right: 10px !important;
+        transform: translateY(-50%) scale(0.5) !important; 
+        transform-origin: right center;
+    }
+
+    .footer-inner {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+    .footer-right {
+        align-items: center !important;
+        text-align: center !important;
+    }
+    .footer-buttons {
+        justify-content: center !important;
+        gap: 5px !important;
+    }
+    .f-btn {
+        padding: 5px 10px !important;
+        font-size: 11px !important;
+    }
+    .footer-info p { font-size: 11px !important; line-height: 1.4 !important; }
+}
+
+@media (max-width: 768px) {
+
+    footer {
+        padding: 40px 20px !important;
+        text-align: center !important;
+    }
+    
+    .footer-inner {
+        flex-direction: column !important; 
+        align-items: center !important;
+        gap: 20px !important;
+    }
+
+    .footer-logo {
+        margin-bottom: 10px !important;
+    }
+
+    .footer-buttons {
+        display: flex !important;
+        flex-wrap: wrap !important; 
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+
+    .footer-buttons a, .f-btn {
+        width: auto !important;
+        min-width: 100px !important;
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+        margin: 0 !important;
+    }
+
+    .footer-info {
+        text-align: center !important;
+        font-size: 11px !important;
+        line-height: 1.6 !important;
+    }
+  }
+    </style>
+</body>
+</html>

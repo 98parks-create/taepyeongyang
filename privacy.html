@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>태평양애드 - 개인정보처리방침</title>
+    <link rel="stylesheet" href="process.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    </head>
+    <body>
+    <header id="header">
+        <nav>
+            <a href="home.html"><img src="logo.png" class="logo"></a>
+            <ul>
+                <li><a href="home.html">HOME</a></li>
+                <li class="dropdown">
+                    <a href="company.html">COMPANY</a>
+                    <ul class="submenu">
+                        <li><a href="company.html#greeting">인사말</a></li>
+                        <li><a href="company.html#business">주요 사업</a></li>
+                        <li><a href="company.html#vision">비전</a></li>
+                        <li><a href="company.html#history">연혁</a></li>
+                        <li><a href="company.html#map">찾아오시는 길</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="process.html">PROCESS</a></li>
+                <li><a href="portfolio.html">PORTFOLIO</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <style>
+        .privacy-hero {
+            width: 100%;
+            height: 350px;
+            background-color: #fdfdfd; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px; 
+        }
+        .privacy-hero h1 {
+            color: #00083A;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .privacy-content {
+            padding: 80px 0;
+            background: #fdfdfd;
+        }
+        .privacy-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+            text-align: left;
+        }
+        .privacy-inner h2 {
+            font-size: 2.5rem;
+            color: #00083A;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+        .privacy-inner h3 {
+            font-size: 1.5rem;
+            color: #00083A;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+         .privacy-inner h4 {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+        }
+        .privacy-inner p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .privacy-inner ul {
+            list-style: none;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+        .privacy-inner ul li {
+            color: #666;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 15px;
+        }
+        .privacy-inner ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #00083A;
+        }
+        .submenu {
+    display: none;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    list-style: none;
+    border: 1px solid #eee;
+}
+.dropdown:hover .submenu { display: block; }
+.submenu li a { color: #333 !important; display: block; padding: 10px 0; font-size: 0.85rem; }
+
+.cont { position: relative; width: 100%; height: 350px; overflow: hidden; }
+.cont-text {
+    position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%);
+    color: #101155; text-align: center; z-index: 2;
+}
+.cont-text h1 { font-size: 4rem; font-weight: 700; letter-spacing: 5px; margin-bottom: 10px; }
+.cont-text p { font-size: 1.2rem; opacity: 0.8; }
+
+.contact-section {
+    background: #f9f9fb;
+    /* 패딩 대신 마진으로 위쪽만 공간 확보 */
+    margin-top: 80px; 
+    /* 화면 전체 높이에서 푸터가 바닥에 붙도록 최소 높이 설정 */
+    min-height: calc(100vh - 200px); 
+    /* 패딩을 0으로 해서 하단 공백 방지 */
+    padding: 0;
+    /* 내부 요소 정렬을 위해 추가 (선택사항) */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* [수정] 폼 박스 내부 여백 및 그림자 최적화 */
+.contact-form {
+    flex: 1;
+    min-width: 320px; 
+    background: #fff;
+    padding: 50px; 
+    border-radius: 20px; 
+    box-shadow: 0 15px 50px rgba(0,0,0,0.08); 
+    border: 1px solid #f0f0f0;
+    max-width: 550px; 
+}
+.contact-form h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #101155;
+    text-align: center;
+    font-weight: 800;
+}
+.contact-container {
+    display: flex;
+    gap: 60px; 
+    justify-content: center; 
+    align-items: flex-start;    
+    flex-wrap: wrap; 
+    max-width: 1200px; 
+    height: auto;    
+    margin: 0 auto; 
+    padding: 20px;
+}
+
+/* [수정] 입력창 사이 간격 넓힘 */
+.input-group {
+    margin-bottom: 25px;
+}
+.input-group label { display: block; color: #101155; font-weight: 600; margin-bottom: 12px; font-size: 1.1rem; }
+.input-group input, .input-group textarea {
+    width: 100%; padding: 18px; border: 1px solid #d1d9e6; border-radius: 10px; box-sizing: border-box; font-size: 1rem;
+}
+.input-group textarea { height: 150px; resize: none; }
+
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+    }
+    .contact-form {
+        width: 100%;
+        padding: 30px;
+    }
+}
+
+.as-btn { background-color: #101155 !important; }
+.contact-main-guide { text-align: center; margin-bottom: 40px; }
+.contact-main-guide p { font-size: 1.4rem; color: #101155; margin-bottom: 8px; font-weight: 500; }
+.contact-main-guide p strong { color: #ff3b3b; text-decoration: underline; }
+.contact-main-guide span { font-size: 0.95rem; color: #666; }
+
+/* Explore Button Styles (기존 유지) */
+.explore {
+    font-family: 'Noto Sans KR', sans-serif;
+    letter-spacing: 1px;
+    background: #f0f0f5; 
+    color: #101155;
+    position: relative;
+    outline: none;
+    border: none;
+    height: 65px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 2;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.explore:before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%; width: 0%;
+    background: #101155;
+    z-index: -1;
+    transition: 0.4s cubic-bezier(0.65, 0, 0.35, 1) all;
+}
+.explore:after {
+    content: '';
+    left: 0; top: 0;
+    height: 100%; width: 8px;
+    background: #101155;
+    z-index: 1;
+}
+.explore:hover { color: transparent; }
+.explore:hover:before { width: 100%; }
+.icon-right {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; height: 100%;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon-right:after {
+    font-family: "FontAwesome";
+    content: '\f061'; 
+    font-size: 22px;
+    position: absolute;
+    right: 25px;
+    opacity: 0;
+    color: #fff;
+    transition: all 0.35s ease-in-out;
+}
+.icon-right.after:before {
+    content: 'SEND NOW';
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%) translateX(-20px);
+    top: 50%;
+    opacity: 0;
+    color: #fff;
+    white-space: nowrap;
+    transition: all 0.3s ease-in-out;
+}
+.explore:hover .icon-right:after { right: 35px; opacity: 1; }
+.explore:hover .icon-right.after:before { transform: translate(-50%, -50%) translateX(0); opacity: 1; }
+.explore:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* 3D Button Styles (기존 유지) */
+.btn-submit {
+    position: relative;
+    padding: 0 0 14px 0;
+    width: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    font-family: inherit;
+    display: block;
+    margin-top: 15px;
+}
+.btn-submit .btn-3d-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 16px 32px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.05rem;
+    border-radius: 8px;
+    background-image: radial-gradient(#1a2a6e, #00083a);
+    box-shadow: inset 0 0 0px 1px rgba(255,255,255,0.2), 0 1px 2px 1px rgba(255,255,255,0.1);
+    transition: transform 0.15s ease-out, color 0.15s ease-out;
+    text-shadow: 0 -1px rgba(0,0,0,0.25);
+}
+.btn-submit:hover .btn-3d-top { transform: translateY(5px); color: #a8c8ff; text-shadow: 0 0 8px #a8c8ff; }
+.btn-submit .btn-3d-bottom {
+    position: absolute; z-index: 1; bottom: 4px; left: 4px; border-radius: 8px/16px 16px 8px 8px;
+    padding-top: 6px; width: calc(100% - 8px); height: calc(100% - 10px);
+    background-color: #000a2e; box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.45), inset 0px -1px 3px 3px rgba(0,0,0,0.35);
+    transition: all 0.15s ease-out;
+}
+.btn-submit:hover .btn-3d-bottom { height: calc(100% - 15px); padding-top: 1px; }
+
+/* [수정] 푸터 전체 레이아웃 (로고 하단으로 정보 이동 반영) */
+#footer {
+    background-color: #333; 
+    color: #fff;
+    padding: 60px 0;
+    width: 100%;
+    margin-top: auto; /* [추가] 항상 하단 고정 */
+}
+.footer-inner {
+    width: 85%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.footer-left { flex: 1; }
+.footer-logo img { width: 200px; opacity: 0.9; margin-bottom: 20px; }
+
+/* 로고 아래 사업자 정보 스타일 */
+.biz-info-under-logo p {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+.biz-verify { color: #999; text-decoration: underline; margin-left: 5px; }
+
+.footer-right {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.footer-buttons { display: flex; gap: 10px; margin-bottom: 25px; }
+.f-btn {
+    border: 1px solid #777; 
+    padding: 6px 18px;
+    border-radius: 8px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+.f-btn-privacy { border-color: #ffcc00; color: #ffcc00; }
+.footer-info { text-align: right; }
+.footer-info p { font-size: 0.85rem; color: #bbb; margin-bottom: 5px; }
+.copyright { margin-top: 15px; opacity: 0.6; }
+
+@media (max-width: 1024px) {
+    .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+    .footer-left, .footer-right { align-items: center; text-align: center; width: 100%; }
+    .footer-info { text-align: center; }
+    .footer-buttons { justify-content: center; flex-wrap: wrap; }
+}
+    </style>
+
+
+    <section class="privacy-hero">
+        <h1>PRIVACY POLICY</h1>
+    </section>
+
+    <section class="privacy-content">
+        <div class="privacy-inner">
+            <h2>개인정보처리방침</h2>
+            
+            <h4>태평양애드는 고객님의 개인정보를 중요시하며, 관련 법령을 준수하기 위해 최선을 다하고 있습니다.</h4>
+
+            <h3>1. 수집하는 개인정보 항목</h3>
+            <ul>
+                <p>수집항목: 성함, 연락처, 문의내용</p>
+                <p>수집방법: 홈페이지 내 견적문의 양식 (Contact Form)</p>
+            </ul>
+            <br>
+            <h3>2. 개인정보의 수집 및 이용목적</h3>
+            <p>회사는 수집한 개인정보를 견적 상담 신청에 따른 <br>본인 확인 및 서비스 제공을 위한 원활한 의사소통 경로 확보를 위해 사용합니다.</p>
+            <br>
+            <h3>3. 개인정보의 보유 및 이용기간</h3>
+            <p>원칙적으로 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다. <br>다만, 상담 이력 관리 및 관련 법령에 의해 보존할 필요가 있는 경우 일정 기간 보관될 수 있습니다.</p>
+            <br>
+            <h3>4. 개인정보의 파기절차 및 방법</h3>
+            <p>회사는 목적이 달성된 개인정보를 재생이 불가능한 방법으로 즉시 파기합니다.</p>
+        </div>
+    </section>
+
+   <footer id="footer">
+    <div class="footer-inner">
+        <div class="footer-left">
+            <div class="footer-logo">
+                <img src="logo_white.png" alt="태평양애드 로고"> 
+            </div>
+            <div class="biz-info-under-logo">
+                <p>태평양애드 | 대표자. [성함] | 사업자등록번호. [000-00-00000] <a href="https://www.ftc.go.kr/www/bizCommList.do?key=232" target="_blank" class="biz-verify">[사업자정보확인]</a></p>
+                <p>통신판매업신고. [제 2026-경기광주-0000 호] | 개인정보보호책임자. [성함]</p>
+            </div>
+        </div>
+
+        <div class="footer-right">
+            <div class="footer-buttons">
+                <a href="privacy.html" class="f-btn f-btn-privacy">개인정보처리방침</a>
+                <a href="terms.html" class="f-btn">이용약관</a>
+                <a href="contact.html" class="f-btn">CONTACT</a>
+                <a href="company.html#map" class="f-btn">찾아오시는 길</a>
+                <a href="manager.html" class="f-btn">TAD</a>  
+            </div>
+            
+            <div class="footer-info">
+                <p>
+                    <span id="display-tel">Tel. 010-516-5412</span> | 
+                    <span id="display-fax">Fax. 010-516-5444</span>
+                </p>
+                <p>
+                    <span id="display-phone">Phone. 010-5163-5456</span> | 
+                    <span id="display-email">Email. nnnnn22@naver.com</span>
+                </p>
+                <p id="display-addr">주소 : 경기 광주시 경충대로 2191 B</p>
+                <p class="copyright">Copyright © 태평양애드. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+    </body>
+</html>

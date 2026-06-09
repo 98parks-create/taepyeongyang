@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>TAD 관리자 시스템</title>
+    <link rel="stylesheet" href="contact.css">
+    <style>
+        .admin-hub { padding: 100px 0; background: #f4f7f6; min-height: 100vh; text-align: center; }
+        .hub-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; max-width: 1000px; margin: 50px auto; padding: 0 20px;
+        }
+        .hub-card {
+            background: #fff; padding: 40px; border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s;
+            text-decoration: none; color: inherit;
+        }
+        .hub-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(16, 17, 85, 0.1); }
+        .hub-card i { font-size: 40px; color: #101155; display: block; margin-bottom: 20px; }
+        .hub-card h3 { font-size: 1.2rem; color: #333; }
+        .logout-btn { margin-top: 30px; padding: 20px 30px; background: #ccc; border: none; cursor: pointer; border-radius: 5px; font-size: 15px;}
+        .logout-btn1 { margin-top: 30px; padding: 20px 30px; background: #d83737; border: none; cursor: pointer; border-radius: 5px; font-size: 15px;}
+    </style>
+    <script>
+        if (sessionStorage.getItem("isAdmin") !== "true") {
+            alert("로그인이 필요합니다.");
+            window.location.href = "manager_login.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="admin-hub">
+        <h1>TAD MANAGER</h1><br>
+        <p>수정하고 싶은 항목을 선택하세요.</p>
+
+        <div class="hub-grid">
+            <a href="manager.html" class="hub-card">
+                <i>👤</i>
+                <h3>고객 문의 관리</h3>
+            </a>
+            <a href="portfolio_s.html" class="hub-card">
+                <i>🖼️</i>
+                <h3>포트폴리오 업로드</h3>
+            </a>
+            <a href="footer_s.html" class="hub-card">
+                <i>📝</i>
+                <h3>푸터 정보 수정</h3>
+            </a>
+        </div>
+        
+        <button onclick="sessionStorage.clear(); window.location.href='tad_manager.html';" class="logout-btn1">로그아웃</button><br>
+        <button onclick="sessionStorage.clear(); window.location.href='home.html';" class="logout-btn">홈으로 돌아가기</button>
+    </div>
+</body>
+</html>

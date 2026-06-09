@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>포트폴리오 등록 - TAD 관리자</title>
+    <link rel="stylesheet" href="contact.css">
+    <style>
+    .contact-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+
+    .inner {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .contact-form {
+        width: 100%;
+        max-width: 600px; 
+        background: #fff; 
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        box-sizing: border-box;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .input-group label {
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .preview-img { 
+        width: 100%; 
+        max-height: 400px; 
+        object-fit: contain; 
+        margin-top: 15px; 
+        border-radius: 10px; 
+        display: none; 
+        border: 1px solid #eee; 
+    }
+
+    .loading-overlay { 
+        display: none; position: fixed; top:0; left:0; width:100%; height:100%; 
+        background: rgba(0,0,0,0.7); color:white; justify-content: center; align-items: center; z-index: 9999; flex-direction: column;
+    }
+    .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; margin-bottom: 10px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+    <div id="loading" class="loading-overlay">
+        <div class="loader"></div>
+        <span>파일을 업로드 중입니다...</span>
+    </div>
+
+    <section class="contact-section">
+        <div class="inner">
+            <div class="contact-form">
+                <h2>🎨 신규 포트폴리오 등록</h2>
+                <form id="portfolio-form">
+                    <div class="input-group">
+                        <label>프로젝트 제목</label>
+                        <input type="text" id="pTitle" placeholder="예: 00기업 브랜드 카탈로그" required>
+                    </div>
+                    <div class="input-group">
+                        <label>카테고리 및 설명</label>
+                        <input type="text" id="pDesc" placeholder="예: 편집디자인 / 2024" required>
+                    </div>
+                    <div class="input-group">
+                        <label>대표 이미지 선택</label>
+                        <input type="file" id="pFile" accept="image/*" required>
+                        <img id="img-preview" class="preview-img">
+                    </div>
+                    <button type="submit" id="submit-btn" class="btn-submit">
+                        <div class="btn-3d-top">포트폴리오 업로드</div>
+                        <div class="btn-3d-bottom"></div>
+                        <div class="btn-3d-base"></div>
+                    </button>
+                    <button type="button" onclick="location.href='tad_manager.html'" class="btn-submit">
+                        <div class="btn-3d-top">관리자 홈으로</div>
+                        <div class="btn-3d-bottom"></div>
+                        <div class="btn-3d-base"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+        import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"; // 상단 import에 추가 필요
+
+        const firebaseConfig = { 
+           apiKey: "AIzaSyAMOEWa_cTOIAAFItBbTvvKoR4E9M2RH40",
+        authDomain: "tad-manager-47444.firebaseapp.com",
+        projectId: "tad-manager-47444",
+        storageBucket: "tad-manager-47444.firebasestorage.app",
+        messagingSenderId: "77084257905",
+        appId: "1:77084257905:web:20a01999b7a9299e72b5d0",
+        measurementId: "G-0FSJXEN7TW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        const pFile = document.getElementById('pFile');
+        const imgPreview = document.getElementById('img-preview');
+
+        pFile.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ex) => {
+                    imgPreview.src = ex.target.result;
+                    imgPreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+       // ... (기존 설정 및 변수 선언 생략)
+
+document.getElementById('portfolio-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // 1. 수정할 문서의 ID를 지정합니다. 
+    // 실제로는 리스트에서 선택한 항목의 ID를 받아와야 하지만, 
+    // 여기서는 테스트를 위해 고정된 ID('fixed_portfolio_id')를 예로 듭니다.
+    const docId = "my_unique_portfolio_01"; 
+
+    const file = pFile.files[0];
+    const title = document.getElementById('pTitle').value;
+    const desc = document.getElementById('pDesc').value;
+    const loading = document.getElementById('loading');
+    const submitBtn = document.getElementById('submit-btn');
+
+    loading.style.display = 'flex';
+    submitBtn.disabled = true;
+
+    try {
+        const storageRef = ref(storage, 'portfolios/' + docId + "_image");
+        
+        let downloadURL = "";
+
+        if (file) {
+            const snapshot = await uploadBytes(storageRef, file);
+            downloadURL = await getDownloadURL(snapshot.ref);
+        }
+        await setDoc(doc(db, "portfolios", docId), {
+            title: title,
+            desc: desc,
+           
+            ...(downloadURL && { imgUrl: downloadURL }), 
+            lastUpdated: serverTimestamp()
+        }, { merge: true }); 
+
+        alert("포트폴리오 정보가 성공적으로 업데이트(수정)되었습니다!");
+        location.href = 'tad_manager.html';
+
+    } catch (error) {
+        console.error("수정 에러:", error);
+        alert("수정에 실패했습니다: " + error.message);
+    } finally {
+        loading.style.display = 'none';
+        submitBtn.disabled = false;
+    }
+});
+    </script>
+</body>
+</html>

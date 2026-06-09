@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAD - 관리자 로그인</title>
+    <link rel="stylesheet" href="contact.css"> <style>
+        .login-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f4f7f6;
+        }
+        .login-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 100px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .login-box h2 { color: #101155; margin-bottom: 70px; font-size: 35px; }
+        .login-box input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: #101155;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-login:hover { background: #1a1a88; }
+        .error-msg { color: #ff4d4d; font-size: 0.9rem; margin-bottom: 15px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>태평양애드 TAD</h2>
+            <p id="error-msg" class="error-msg">아이디 또는 비밀번호가 틀렸습니다.</p>
+            <form id="login-form">
+                <input type="text" id="adminId" placeholder="관리자 아이디" required>
+                <input type="password" id="adminPw" placeholder="비밀번호" required>
+                <button type="submit" class="btn-login">로그인</button>
+            </form>
+            <p style="margin-top: 20px;"><a href="home.html" style="color: #888; text-decoration: none; font-size: 0.8rem;">홈으로 돌아가기</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('adminId').value;
+            const pw = document.getElementById('adminPw').value;
+            const CORRECT_ID = "66parks"; // 원하는 아이디로 수정하세요
+            const CORRECT_PW = "joungwoo610#";  // 원하는 비번으로 수정하세요
+
+            if (id === CORRECT_ID && pw === CORRECT_PW) {
+                sessionStorage.setItem("isAdmin", "true");
+                window.location.href = "tad_manager.html";
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

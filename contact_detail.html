@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 상세 보기 - TAD</title>
+    <link rel="stylesheet" href="contact.css">
+    <style>
+        .detail-container { padding: 100px 0; background: #f4f7f6; min-height: 100vh; }
+        .detail-box { 
+            max-width: 700px; margin: 0 auto; background: white; padding: 40px; 
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+        }
+        .detail-header { border-bottom: 2px solid #101155; padding-bottom: 20px; margin-bottom: 30px; }
+        .item-row { margin-bottom: 25px; }
+        .item-label { font-weight: bold; color: #101155; font-size: 0.9rem; margin-bottom: 8px; display: block; }
+        .item-content { 
+            font-size: 1.1rem; color: #333; padding: 15px; background: #f9f9f9; 
+            border-radius: 8px; line-height: 1.6; min-height: 20px;
+        }
+        .btn-area { margin-top: 40px; display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-back { background: #888; color: white; }
+        .btn-delete { background: #ff4d4d; color: white; }
+        .btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="detail-container">
+        <div class="detail-box">
+            <div class="detail-header">
+                <h2>문의 상세 내역</h2>
+            </div>
+
+            <div id="content-load">
+                <div class="item-row">
+                    <span class="item-label">접수 일시</span>
+                    <div id="d-date" class="item-content">불러오는 중...</div>
+                </div>
+                <div class="item-row">
+                    <span class="item-label">고객명</span>
+                    <div id="d-name" class="item-content"></div>
+                </div>
+                <div class="item-row">
+                    <span class="item-label">연락처</span>
+                    <div id="d-phone" class="item-content"></div>
+                </div>
+                <div class="item-row">
+                    <span class="item-label">문의 내용</span>
+                    <div id="d-message" class="item-content" style="white-space: pre-wrap;"></div>
+                </div>
+            </div>
+
+            <div class="btn-area">
+                <button onclick="location.href='manager.html'" class="btn btn-back">목록으로 돌아가기</button>
+                <button id="delete-btn" class="btn btn-delete">문의 삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = { 
+           apiKey: "AIzaSyAMOEWa_cTOIAAFItBbTvvKoR4E9M2RH40",
+            authDomain: "tad-manager-47444.firebaseapp.com",
+            projectId: "tad-manager-47444",
+            storageBucket: "tad-manager-47444.firebasestorage.app",
+            messagingSenderId: "77084257905",
+            appId: "1:77084257905:web:20a01999b7a9299e72b5d0",
+            measurementId: "G-0FSJXEN7TW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const params = new URLSearchParams(window.location.search);
+        const docId = params.get('id');
+
+        if (!docId) {
+            alert("잘못된 접근입니다.");
+            location.href = 'manager.html';
+        }
+
+        async function getDetail() {
+            try {
+                const docRef = doc(db, "contacts", docId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('d-date').innerText = data.timestamp ? data.timestamp.toDate().toLocaleString() : '정보 없음';
+                    document.getElementById('d-name').innerText = data.name;
+                    document.getElementById('d-phone').innerText = data.phone;
+                    document.getElementById('d-message').innerText = data.message;
+                } else {
+                    alert("삭제된 게시물입니다.");
+                    location.href = 'manager.html';
+                }
+            } catch (e) {
+                console.error(e);
+                alert("데이터를 불러오지 못했습니다.");
+            }
+        }
+
+        getDetail();
+
+     
+        document.getElementById('delete-btn').addEventListener('click', async () => {
+            if(confirm("정말 이 문의글을 삭제하시겠습니까? 복구할 수 없습니다.")) {
+                try {
+                    await deleteDoc(doc(db, "contacts", docId));
+                    alert("성공적으로 삭제되었습니다.");
+                    location.href = 'manager.html';
+                } catch (e) {
+                    alert("삭제 실패: " + e.message);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>푸터 수정 - TAD</title>
+    <link rel="stylesheet" href="contact.css">
+    <script>
+        if (sessionStorage.getItem("isAdmin") !== "true") { window.location.href = "manager_login.html"; }
+    </script>
+    <style>
+    .contact-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+    .inner {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .contact-form {
+        width: 100%;
+        max-width: 600px; 
+        background: #fff; 
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        box-sizing: border-box;
+    }
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    .input-group label {
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+    .preview-img { 
+        width: 100%; 
+        max-height: 400px; 
+        object-fit: contain; 
+        margin-top: 15px; 
+        border-radius: 10px; 
+        display: none; 
+        border: 1px solid #eee; 
+    }
+    .loading-overlay { 
+        display: none; position: fixed; top:0; left:0; width:100%; height:100%; 
+        background: rgba(0,0,0,0.7); color:white; justify-content: center; align-items: center; z-index: 9999; flex-direction: column;
+    }
+    .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; margin-bottom: 10px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+    <section class="contact-section">
+        <div class="contact-form">
+    <h2>푸터 상세 정보 수정</h2>
+    <form id="footer-form">
+        <div class="input-group"><label>대표 번호 (Tel)</label><input type="text" id="ftel" placeholder="000-000-0000"></div>
+        <div class="input-group"><label>팩스 번호 (Fax)</label><input type="text" id="ffax" placeholder="000-000-0000"></div>
+        <div class="input-group"><label>휴대폰 (Phone)</label><input type="text" id="fphone" placeholder="000-0000-0000"></div>
+        <div class="input-group"><label>이메일 (Email)</label><input type="email" id="femail" placeholder="example@tad.co.kr"></div>
+        <div class="input-group"><label>회사 주소</label><input type="text" id="faddr" placeholder="경기 광주시 경충대로 2191 B"></div>
+        <button type="submit" class="btn-submit">
+            <div class="btn-3d-top">모든 정보 업데이트</div>
+            <div class="btn-3d-bottom"></div>
+            <div class="btn-3d-base"></div>
+        </button>
+        <button type="button" onclick="location.href='tad_manager.html'" class="btn-submit btn-back">
+            <div class="btn-3d-top">뒤로가기</div>
+            <div class="btn-3d-bottom"></div>
+            <div class="btn-3d-base"></div>
+        </button>
+       
+    </form>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = { apiKey: "AIzaSyAMOEWa_cTOIAAFItBbTvvKoR4E9M2RH40",
+  authDomain: "tad-manager-47444.firebaseapp.com",
+  projectId: "tad-manager-47444",
+  storageBucket: "tad-manager-47444.firebasestorage.app",
+  messagingSenderId: "77084257905",
+  appId: "1:77084257905:web:20a01999b7a9299e72b5d0",
+  measurementId: "G-0FSJXEN7TW"};
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    async function loadFooterData() {
+        const docRef = doc(db, "settings", "footer");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            document.getElementById('ftel').value = data.tel || "";
+            document.getElementById('ffax').value = data.fax || "";
+            document.getElementById('fphone').value = data.phone || "";
+            document.getElementById('femail').value = data.email || "";
+            document.getElementById('faddr').value = data.addr || "";
+        }
+    }
+    loadFooterData();
+
+    document.getElementById('footer-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            await setDoc(doc(db, "settings", "footer"), {
+                tel: document.getElementById('ftel').value,
+                fax: document.getElementById('ffax').value,
+                phone: document.getElementById('fphone').value,
+                email: document.getElementById('femail').value,
+                addr: document.getElementById('faddr').value
+            });
+            alert("푸터 정보가 성공적으로 변경되었습니다.");
+            location.href = "tad_manager.html";
+        } catch (error) {
+            alert("저장 실패: " + error.message);
+        }
+    });
+</script>
+
+    </section>
+</body>
+</html>

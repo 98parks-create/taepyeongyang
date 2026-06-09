@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css?family=Teko");
+.App {
+  background: #0f0f0f;
+  font-family: "Teko", serif;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Loader {
+  color: white;
+  font-size: 5vw;
+  letter-spacing: 0.01;
+  transition: transform 0.125s ease;
+}
+.Loader sup {
+  font-size: 50%;
+  vertical-align: baseline;
+}

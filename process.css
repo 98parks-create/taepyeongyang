@@ -1,0 +1,262 @@
+* {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
+body { background: #fff; overflow-x: hidden; }
+
+.nt{ font-size: 20px;}
+header {
+        position: fixed; width: 100%; 
+        display: flex; align-items: center; justify-content: center;
+        z-index: 1000; transition: 0.3s; color: white;
+    }
+    header.scrolled { background: rgb(255, 255, 255); color: #00083a; border-bottom: 1px solid #eee; }
+
+    nav { width: 100%; display: flex; justify-content: space-between; align-items: center; background-color: rgba(255, 255, 255, 0.377); padding:15px 85px 15px 0;}
+    .logo { font-size: 0.7rem; font-weight: bold; letter-spacing: 2px; text-align: center; padding-left: 85px; width: 250px;}
+    nav ul { display: flex; list-style: none; gap: 40px; color: #00083a; }
+    nav ul li a { text-decoration: none; color: inherit; font-size: 0.95rem; }
+
+.hero { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+.video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+video { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); }
+
+.content { padding: 100px 0; text-align: center; }
+.inner { width: 80%; margin: 0 auto; }
+.inner h2 { font-size: 2.5rem; margin-bottom: 10px; color: #101155; }
+.inner p { margin-bottom: 50px; color: #666; }
+.box-container {
+    position: relative; width: 100%; max-width: 1000px; height: 450px;
+    margin: 0 auto 100px; overflow: hidden; background: #fff;
+    border-radius: 30px; box-shadow: 0 30px 60px rgba(16, 17, 85, 0.1);
+}
+
+.info-box {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; align-items: stretch; 
+    opacity: 0; visibility: hidden; transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.info-box.active { opacity: 1; visibility: visible; }
+
+.box-text {
+    flex: 1.2; padding: 60px; text-align: left;
+    display: flex; flex-direction: column; justify-content: center;
+}
+
+
+.box-img {
+    flex: 0.8; 
+    background-size: cover; 
+    background-position: center;
+    background-color: #f4f4f4;
+    border-radius: 0 30px 30px 0;
+}
+
+.box-num { font-size: 5rem; font-weight: 900; color: #101155; opacity: 0.05; }
+.info-box h3 { font-size: 2.2rem; color: #101155; margin-bottom: 25px; font-weight: 700; }
+.info-box p { font-size: 1.05rem; color: #555; line-height: 1.9; word-break: keep-all; }
+
+.process-details {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px; padding: 50px;
+}
+
+.detail-item {
+    background: white; padding: 40px 20px; border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s;
+}
+
+.detail-item:hover { background: #f8f9ff; }
+
+.detail-icon {
+    width: 60px; height: 60px; background: #101155; color: white;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; font-weight: bold; margin: 0 auto 20px;
+}
+
+.submenu {
+        display: none;
+        position: absolute;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        list-style: none;
+        border: 1px solid #eee;
+    }
+
+    .dropdown:hover .submenu {
+        display: block;
+    }
+
+    .submenu li a {
+        color: #333 !important;
+        display: block;
+        padding: 10px 0;
+        font-size: 0.85rem;
+    }
+#footer {
+    background-color: #333; 
+    color: #fff;
+    padding: 60px 0;
+    width: 100%;
+}
+
+.footer-inner {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.footer-logo img {
+    width: 200px;
+    opacity: 0.9;
+}
+
+.footer-content {
+    text-align: left;
+}
+
+.footer-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.f-btn {
+    border: 1px solid #777;
+    padding: 8px 25px;
+    border-radius: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.f-btn:hover {
+    background: #fff;
+    color: #333;
+}
+
+
+.footer-info p {
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-bottom: 8px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+}
+
+
+@media (max-width: 768px) {
+   
+    /* 3. 푸터 레이아웃 개선 (중앙 정렬 및 버튼 최적화) */
+    #footer {
+        padding: 40px 20px !important;
+        text-align: center !important;
+    }
+    
+    .footer-inner {
+        display: flex !important;
+        flex-direction: row !important; /* 세로에서 가로로 변경 */
+        justify-content: space-between !important; /* 좌우 끝으로 밀착 */
+        align-items: center !important; /* 세로축 중앙 정렬 */
+        flex-wrap: nowrap !important; /* 공간이 좁아도 아래로 떨어지지 않게 고정 */
+        gap: 10px !important; /* 요소 사이 간격 최소화 */
+    }
+    .footer-logo img {
+        width: 100px !important; /* 모바일에서는 더 작게 (100px) */
+        margin-left: 0 !important; /* 왼쪽 여백 완전히 제거 */
+    }
+    
+    .footer-logo {
+        margin-bottom: 10px !important;
+        text-align: left !important;
+    }
+    .f-btn {
+        flex-direction: row !important;
+    }
+    .f-btn-privacy {
+        flex-direction: row !important;
+    }
+
+    /* 푸터 내 버튼들 (CONTACT, 찾아오시는 길 등) 한 줄 가로 배치 */
+.footer-buttons {
+    display: flex !important;
+    flex-direction: row !important; /* 가로 방향 */
+    flex-wrap: nowrap !important;  /* 절대 다음 줄로 넘기지 않음 */
+    justify-content: center !important; /* 중앙 정렬 (좌우 끝은 space-between) */
+    gap: 4px !important; /* 버튼 사이 간격 좁힘 */
+    width: 100% !important;
+}
+
+.footer-buttons a, .f-btn {
+    flex: 1 !important;      /* 버튼들이 공간을 똑같이 나눠 가짐 */
+    width: auto !important;
+    min-width: 0 !important;  /* 기존 100px 제한 해제 (중요!) */
+    padding: 6px 2px !important; /* 상하 6px, 좌우 2px로 슬림하게 */
+    font-size: 5px !important;  /* 요청하신 작은 크기 유지 */
+    text-align: center !important;
+    white-space: nowrap !important; /* 글자가 버튼 안에서 줄바꿈되지 않게 함 */
+    letter-spacing: -0.5px; /* 글자 간격을 좁혀서 공간 확보 */
+}
+    .biz-info-under-logo p {
+        font-size: 10px;
+    }
+    /* 푸터 정보 (전화번호, 주소 등) */
+    .footer-info {
+        text-align: center !important;
+        font-size: 5px !important;
+        line-height: 1.6 !important;
+    }
+    .footer-info p {
+        font-size: 10px;
+    }
+    .copyright {
+        font-size: 10px;
+    }
+     .footer-logo img {
+        font-size: 30px;
+     }
+    /* 1. 부모 컨테이너: 가로로 나열 */
+    .detail-container { /* 실제 부모 클래스명으로 확인 필요 */
+        display: flex !important;
+        flex-direction: row !important; 
+        justify-content: center !important;
+        gap: 5px !important; /* 박스 사이 간격 최소화 */
+        padding: 10px !important;
+        align-items: stretch !important;
+    }
+
+    /* 2. 개별 박스: 가로 4등분 및 정사각형 느낌 부여 */
+    .detail-item {
+        flex: 1 !important; /* 동일한 너비 공유 */
+        aspect-ratio: 1 / 1 !important; /* 가로세로 1:1 비율 유지 (정사각형) */
+        
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important; /* 내용 중앙 정렬 */
+        align-items: center !important;
+        
+        padding: 5px !important;
+        margin: 0 !important;
+        min-height: auto !important; /* 기존 세로 길이를 초기화 */
+    }
+
+    /* 3. 내부 텍스트 및 숫자 크기 조절 (가로가 좁아지므로 필수) */
+    .detail-item .number { /* 숫자 동그라미 부분 */
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 14px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .detail-item h3 { /* '상담', '작업과정' 등 제목 */
+        font-size: 11px !important;
+        margin: 2px 0 !important;
+        white-space: nowrap !important; /* 글자 줄바꿈 방지 */
+    }
+
+    .detail-item p { /* 하단 설명 텍스트 */
+        display: none !important; /* 모바일 가로 1줄에서는 공간상 설명을 숨기는 것이 깔끔합니다 */
+    }
+}
+
